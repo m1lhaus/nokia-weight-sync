@@ -82,6 +82,7 @@ class NokiaAuth(object):
     def get_credentials(self, code):
         tokens = self._oauth().fetch_token(
             '%s/oauth2/token' % self.URL,
+            include_client_id=True,       
             code=code,
             timeout=2,
             client_secret=self.consumer_secret)
