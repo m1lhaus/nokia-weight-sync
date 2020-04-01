@@ -364,13 +364,17 @@ elif command == 'sync':
         fit.write_device_info(timestamp=next_sync)
         for m in groups:
             weight = m.get_measure(types['weight']);
+            water = m.get_measure(types['hydration']);
+            water_percent = None
             if weight:
                 bmi = None
                 if height:
                     bmi = round(weight / pow(height, 2), 1)
+                if water:
+                    water_percent = round(water / weight * 100, 1)
 
                 fit.write_weight_scale(timestamp=m.date.timestamp, weight=weight, percent_fat=m.get_measure(types['fat_ratio']),
-                    percent_hydration=m.get_measure(types['hydration']), bone_mass=m.get_measure(types['bone_mass']), muscle_mass=m.get_measure(types['muscle_mass']),
+                    percent_hydration=water_percent, bone_mass=m.get_measure(types['bone_mass']), muscle_mass=m.get_measure(types['muscle_mass']),
                     bmi=bmi)
 
         fit.finish()
